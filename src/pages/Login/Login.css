@@ -1,0 +1,178 @@
+.login-page{
+    width:80%;
+    height:80vh;
+
+    /* ضع صورة الخلفية هنا */
+    background:red;
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+}
+
+.login-page::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(4,32,43,.55);
+}
+
+/* ==========================
+   بطاقة تسجيل الدخول
+========================== */
+
+.login-card{
+    position:relative;
+    z-index:2;
+
+    width:560px;
+    min-height:620px;
+
+    padding:55px 50px;
+
+    margin-left:120px;
+
+    background:rgba(255,255,255,.96);
+
+    border-radius:18px;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.25);
+
+    text-align:center;
+}
+/* شعار الجهة */
+
+.login-card img{
+    margin-bottom:10px;
+}
+
+/* اسم الجهة */
+
+.login-card h3{
+    font-size:22px;
+    font-weight:800;
+    color:#006b45;
+    margin-bottom:8px;
+}
+
+/* العناوين */
+
+.login-card p{
+    font-size:18px;
+    font-weight:900;
+    color:#555;
+}
+
+/* عنوان تسجيل الدخول */
+
+.login-title{
+    text-align:center;
+    font-size:98px;
+    font-weight:bold;
+    color:#005f46;
+    margin-bottom:20px;
+}
+
+/* ==========================
+   حقول الإدخال
+========================== */
+
+.login-card input{
+    width:180%;
+    height:52px;
+
+    margin-top:18px;
+
+    padding:0 18px;
+
+    border:1px solid #ddd;
+    border-radius:10px;
+
+    outline:none;
+
+    font-size:17px;
+    font-weight:600;
+
+    font-family:"Cairo", Arial, sans-serif;
+
+    transition:.3s;
+}
+
+.login-card input:focus{
+    border-color:#008a4b;
+    box-shadow:0 0 0 3px rgba(0,138,75,.12);
+}
+
+/* Placeholder */
+
+.login-card input::placeholder{
+    color:#888;
+    font-weight:600;
+}
+
+/* ==========================
+   زر الدخول
+========================== */
+
+.login-card button{
+    width:100%;
+    height:52px;
+
+    margin-top:22px;
+
+    background:#008a4b;
+    color:#fff;
+
+    border:none;
+    border-radius:10px;
+
+    font-size:20px;
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.login-card button:hover{
+    background:#006b3c;
+}
+
+/* ==========================
+   الجزء الأيمن
+========================== */
+
+.login-right{
+    position:absolute;
+
+    right:120px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    z-index:2;
+
+    color:#fff;
+    text-align:right;
+}
+
+.login-right h1{
+    font-size:54px;
+    margin-top:25px;
+}
+
+.login-right h2{
+    font-size:26px;
+    font-weight:400;
+    color:#ddd;
+}
+
+.login-right img{
+    width:120px;
+}
