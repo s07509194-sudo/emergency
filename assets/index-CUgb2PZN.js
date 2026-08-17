@@ -1354,7 +1354,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
                   rounded-full\r
 \r
                   animate-spin\r
-                `}),(0,K.jsx)(`span`,{children:`جاري تحميل بيانات المدن...`})]})}),(0,K.jsxs)(yh,{center:[24.9,39.2],zoom:6,zoomControl:!1,scrollWheelZoom:!1,style:{height:`850px`,width:`190%`},children:[(0,K.jsx)(Ch,{position:`topright`}),(0,K.jsx)(Sh,{attribution:`\r
+                `}),(0,K.jsx)(`span`,{children:`جاري تحميل بيانات المدن...`})]})}),(0,K.jsxs)(yh,{center:[24.9,39.2],zoom:6,zoomControl:!1,scrollWheelZoom:!1,style:{height:`850px`,width:`100%`},children:[(0,K.jsx)(Ch,{position:`topright`}),(0,K.jsx)(Sh,{attribution:`\r
               © OpenStreetMap contributors\r
             `,url:`\r
               https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png\r
