@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 type Props = {
   setLayers: React.Dispatch<
     React.SetStateAction<{
@@ -9,87 +7,119 @@ type Props = {
   >;
 };
 
-
 export default function LayerControl({ setLayers }: Props) {
-
   return (
-
     <div
       className="
-      absolute
-      top-4
-      left-4
-      z-[1000]
-      bg-white
-      rounded-xl
-      shadow-lg
-      p-4
-      w-52
+        absolute
+        top-2
+        left-2
+        sm:top-3
+        sm:left-3
+        lg:top-4
+        lg:left-4
+        z-[1000]
+        bg-white/95
+        backdrop-blur-md
+        rounded-lg
+        sm:rounded-xl
+        shadow-lg
+        p-2.5
+        sm:p-3
+        lg:p-4
+        w-36
+        sm:w-44
+        lg:w-52
       "
     >
-
-      <h3 className="
-        font-bold
-        text-slate-700
-        mb-3
-      ">
+      <h3
+        className="
+          font-bold
+          text-slate-700
+          text-xs
+          sm:text-sm
+          lg:text-base
+          mb-2
+          sm:mb-3
+        "
+      >
         🗂️ طبقات الخريطة
       </h3>
 
-
-      <label className="
-        flex
-        items-center
-        gap-2
-        mb-2
-        text-sm
-      ">
-
+      {/* البلاغات */}
+      <label
+        className="
+          flex
+          items-center
+          gap-1.5
+          sm:gap-2
+          mb-2
+          text-xs
+          sm:text-sm
+          text-slate-700
+          cursor-pointer
+          select-none
+        "
+      >
         <input
           type="checkbox"
           defaultChecked
-          onChange={(e)=>{
-
-            setLayers(prev=>({
+          className="
+            w-3.5
+            h-3.5
+            sm:w-4
+            sm:h-4
+            accent-emerald-600
+            cursor-pointer
+            shrink-0
+          "
+          onChange={(e) => {
+            setLayers((prev) => ({
               ...prev,
-              reports:e.target.checked
+              reports: e.target.checked,
             }));
-
           }}
         />
 
-        🚨 البلاغات
-
+        <span>🚨 البلاغات</span>
       </label>
 
-
-
-      <label className="
-        flex
-        items-center
-        gap-2
-        text-sm
-      ">
-
+      {/* إدارة الطوارئ */}
+      <label
+        className="
+          flex
+          items-center
+          gap-1.5
+          sm:gap-2
+          text-xs
+          sm:text-sm
+          text-slate-700
+          cursor-pointer
+          select-none
+        "
+      >
         <input
           type="checkbox"
           defaultChecked
-          onChange={(e)=>{
-
-            setLayers(prev=>({
+          className="
+            w-3.5
+            h-3.5
+            sm:w-4
+            sm:h-4
+            accent-emerald-600
+            cursor-pointer
+            shrink-0
+          "
+          onChange={(e) => {
+            setLayers((prev) => ({
               ...prev,
-              operations:e.target.checked
+              operations: e.target.checked,
             }));
-
           }}
         />
 
-        🏢  إدراة الطوارئ
-
+        <span>🏢 إدارة الطوارئ</span>
       </label>
-
-
     </div>
-
   );
 }

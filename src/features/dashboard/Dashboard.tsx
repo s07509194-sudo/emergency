@@ -76,18 +76,31 @@ export default function Dashboard() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen p-5">
+      <div className="w-full min-w-0 p-2 sm:p-3 md:p-5">
 
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-slate-800">لوحة التحكم</h1>
-          <p className="text-slate-500 mt-1">
+        {/* عنوان الصفحة */}
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">
+            لوحة التحكم
+          </h1>
+
+          <p className="text-sm sm:text-base text-slate-500 mt-1">
             متابعة البلاغات والإنذارات والأمطار بشكل لحظي
           </p>
         </div>
 
         {/* KPI Cards */}
-        <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            xl:grid-cols-4
+            gap-3
+            sm:gap-4
+            lg:gap-5
+          "
+        >
           {cards.map((card, index) => {
             const Icon = card.icon;
 
@@ -99,29 +112,69 @@ export default function Dashboard() {
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -4 }}
                 className={`
-                  bg-white rounded-2xl shadow-md hover:shadow-xl ${card.glow}
-                  transition-all duration-300
-                  border border-slate-100
-                  p-6 flex justify-between items-center
+                  w-full
+                  min-w-0
+                  bg-white
+                  rounded-2xl
+                  shadow-md
+                  hover:shadow-xl
+                  ${card.glow}
+                  transition-all
+                  duration-300
+                  border
+                  border-slate-100
+                  p-4
+                  sm:p-5
+                  lg:p-6
+                  flex
+                  justify-between
+                  items-center
+                  gap-3
                 `}
               >
-                <div>
-                  <p className="text-slate-500 text-sm mb-1.5">{card.title}</p>
-                  <h2 className="text-4xl font-extrabold text-slate-800 font-mono tracking-tight">
-                    <AnimatedNumber value={card.value} suffix={card.suffix} />
+                <div className="min-w-0">
+                  <p className="text-slate-500 text-xs sm:text-sm mb-1.5 truncate">
+                    {card.title}
+                  </p>
+
+                  <h2
+                    className="
+                      text-2xl
+                      sm:text-3xl
+                      lg:text-4xl
+                      font-extrabold
+                      text-slate-800
+                      font-mono
+                      tracking-tight
+                    "
+                  >
+                    <AnimatedNumber
+                      value={card.value}
+                      suffix={card.suffix}
+                    />
                   </h2>
                 </div>
 
                 <div
                   className={`
-                    p-4 rounded-2xl ${card.iconColor}
-                    bg-gradient-to-br ${card.gradient}
+                    shrink-0
+                    p-3
+                    sm:p-4
+                    rounded-2xl
+                    ${card.iconColor}
+                    bg-gradient-to-br
+                    ${card.gradient}
                     backdrop-blur-md
-                    border border-white/60
+                    border
+                    border-white/60
                     shadow-lg
                   `}
                 >
-                  <Icon size={28} strokeWidth={2.2} />
+                  <Icon
+                    size={22}
+                    strokeWidth={2.2}
+                    className="sm:w-7 sm:h-7"
+                  />
                 </div>
               </motion.div>
             );
@@ -129,60 +182,114 @@ export default function Dashboard() {
         </div>
 
         {/* Main Workspace */}
-        <div className="grid grid-cols-12 gap-6 mt-6">
+        <div
+          className="
+            grid
+            grid-cols-1
+            xl:grid-cols-12
+            gap-4
+            lg:gap-6
+            mt-4
+            lg:mt-6
+          "
+        >
           {/* Map */}
-          <div className="col-span-12 xl:col-span-9">
-            <EmergencyMap
-              selectedReport={selectedReport}
-              setSelectedReport={setSelectedReport}
-            />
+          <div className="w-full min-w-0 xl:col-span-9">
+            <div className="w-full min-w-0 overflow-hidden rounded-2xl">
+              <EmergencyMap
+                selectedReport={selectedReport}
+                setSelectedReport={setSelectedReport}
+              />
+            </div>
           </div>
 
           {/* Details Panel */}
-          <div className="col-span-12 xl:col-span-3">
+          <div className="w-full min-w-0 xl:col-span-3">
             <ReportDetails report={selectedReport} />
           </div>
         </div>
 
         {/* Operations Panels */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
+        <div
+          className="
+            grid
+            grid-cols-1
+            md:grid-cols-2
+            xl:grid-cols-3
+            gap-4
+            lg:gap-5
+            mt-4
+            lg:mt-6
+          "
+        >
 
           {/* آخر البلاغات */}
-          <div className="bg-white rounded-2xl shadow-md p-6 border border-slate-100">
+          <div className="w-full min-w-0 bg-white rounded-2xl shadow-md p-4 sm:p-5 lg:p-6 border border-slate-100">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center text-red-500">
+              <div className="w-9 h-9 shrink-0 rounded-xl bg-red-50 flex items-center justify-center text-red-500">
                 <Radio size={18} />
               </div>
-              <h3 className="text-lg font-bold text-slate-700">آخر البلاغات</h3>
+
+              <h3 className="text-base sm:text-lg font-bold text-slate-700">
+                آخر البلاغات
+              </h3>
             </div>
 
             <ul className="space-y-3">
               {recentReports.map((report) => (
-                <li key={report.label} className="flex items-center gap-2 text-sm text-slate-600">
-                  <span className={`w-2 h-2 rounded-full ${severityDot[report.severity]}`} />
-                  {report.label}
+                <li
+                  key={report.label}
+                  className="
+                    flex
+                    items-start
+                    gap-2
+                    text-sm
+                    text-slate-600
+                    leading-6
+                  "
+                >
+                  <span
+                    className={`
+                      w-2
+                      h-2
+                      shrink-0
+                      rounded-full
+                      mt-2
+                      ${severityDot[report.severity]}
+                    `}
+                  />
+
+                  <span>{report.label}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* حالة الطقس */}
-          <div className="bg-white rounded-2xl shadow-md p-6 border border-slate-100">
+          <div className="w-full min-w-0 bg-white rounded-2xl shadow-md p-4 sm:p-5 lg:p-6 border border-slate-100">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-cyan-50 flex items-center justify-center text-cyan-600">
+              <div className="w-9 h-9 shrink-0 rounded-xl bg-cyan-50 flex items-center justify-center text-cyan-600">
                 <CloudRain size={18} />
               </div>
-              <h3 className="text-lg font-bold text-slate-700">حالة الطقس</h3>
+
+              <h3 className="text-base sm:text-lg font-bold text-slate-700">
+                حالة الطقس
+              </h3>
             </div>
 
-            <div className="space-y-2">
-              <p className="text-slate-600 text-sm flex justify-between">
+            <div className="space-y-3">
+              <p className="text-slate-600 text-sm flex justify-between gap-3">
                 <span>كمية الأمطار الحالية</span>
-                <span className="font-bold text-slate-800">18 مم</span>
+
+                <span className="font-bold text-slate-800 whitespace-nowrap">
+                  18 مم
+                </span>
               </p>
-              <p className="text-slate-600 text-sm flex justify-between items-center">
+
+              <p className="text-slate-600 text-sm flex justify-between items-center gap-3">
                 <span>مستوى التنبيه</span>
-                <span className="px-2.5 py-0.5 rounded-full bg-yellow-100 text-yellow-700 text-xs font-semibold">
+
+                <span className="px-2.5 py-0.5 rounded-full bg-yellow-100 text-yellow-700 text-xs font-semibold whitespace-nowrap">
                   متوسط
                 </span>
               </p>
@@ -190,18 +297,25 @@ export default function Dashboard() {
           </div>
 
           {/* مستوى الخطورة */}
-          <div className="bg-white rounded-2xl shadow-md p-6 border border-slate-100">
+          <div className="w-full min-w-0 bg-white rounded-2xl shadow-md p-4 sm:p-5 lg:p-6 border border-slate-100">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500">
+              <div className="w-9 h-9 shrink-0 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500">
                 <ShieldAlert size={18} />
               </div>
-              <h3 className="text-lg font-bold text-slate-700">مستوى الخطورة</h3>
+
+              <h3 className="text-base sm:text-lg font-bold text-slate-700">
+                مستوى الخطورة
+              </h3>
             </div>
 
-            <p className="text-orange-500 text-3xl font-extrabold">متوسط</p>
-            <p className="text-slate-500 text-sm mt-2">12 نقطة تحتاج متابعة</p>
-          </div>
+            <p className="text-orange-500 text-2xl sm:text-3xl font-extrabold">
+              متوسط
+            </p>
 
+            <p className="text-slate-500 text-sm mt-2">
+              12 نقطة تحتاج متابعة
+            </p>
+          </div>
         </div>
       </div>
     </MainLayout>

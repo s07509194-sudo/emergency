@@ -10,7 +10,7 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  Legend,
+
 } from "recharts";
 import { PieChart as PieIcon, BarChart3 } from "lucide-react";
 import type { CriticalPoint } from "../utils/readExcel";
@@ -106,10 +106,13 @@ export default function AnalyticsCharts({ points }: AnalyticsChartsProps) {
               ))}
             </Pie>
             <Tooltip
-              formatter={(value: number, name: string) => [
-                `${value} نقطة (${total ? Math.round((value / total) * 100) : 0}%)`,
-                name,
-              ]}
+              formatter={(value, name) => {
+                const numericValue = Number(value ?? 0);
+                return [
+                  `${numericValue} نقطة (${total ? Math.round((numericValue / total) * 100) : 0}%)`,
+                  name,
+                ];
+              }}
             />
           </PieChart>
         </ResponsiveContainer>

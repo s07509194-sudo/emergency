@@ -5,7 +5,6 @@ import {
   Popup,
   useMap,
 } from "react-leaflet";
-
 import { useEffect, useState } from "react";
 import L from "leaflet";
 
@@ -23,7 +22,6 @@ import drainageIcon from "../../assets/markers/drainage.svg";
 import LayerControl from "./LayerControl";
 import MapToolbar from "./MapToolbar";
 import MapTypeSwitcher from "./MapTypeSwitcher";
-
 import { emergencyReports } from "../../data/emergencyData";
 
 const fireMarker = L.icon({
@@ -79,25 +77,18 @@ function getMarkerIcon(type: string) {
   switch (type) {
     case "Fire":
       return fireMarker;
-
     case "Flood":
       return floodMarker;
-
     case "Medical":
       return medicalMarker;
-
     case "Critical":
       return criticalMarker;
-
     case "Shelter":
       return shelterMarker;
-
     case "Landslide":
       return landslideMarker;
-
     case "Drainage":
       return drainageMarker;
-
     default:
       return new L.Icon.Default();
   }
@@ -107,25 +98,23 @@ function SearchControl() {
   const map = useMap();
 
   useEffect(() => {
-    const geocoder = L.Control.Geocoder.nominatim();
+    const geocoder = (L.Control as any).Geocoder.nominatim();
 
-    const control = L.Control.geocoder({
+    const control = (L.Control as any).geocoder({
       query: "",
       placeholder: "ابحث عن موقع...",
       geocoder,
       defaultMarkGeocode: false,
-      position: "topright",
+      position: "bottomright",
     })
-      .on("markgeocode", function (e: any) {
-        const latlng = e.geocode.center;
+      .on("markgeocode", (event: any) => {
+        const latlng = event.geocode.center;
 
-        map.flyTo(latlng, 15, {
-          duration: 1.5,
-        });
+        map.flyTo(latlng, 15, { duration: 1.5 });
 
         L.marker(latlng)
           .addTo(map)
-          .bindPopup(e.geocode.name)
+          .bindPopup(event.geocode.name)
           .openPopup();
       })
       .addTo(map);
@@ -138,15 +127,29 @@ function SearchControl() {
   return null;
 }
 
-type Props = {
-  selectedReport: typeof emergencyReports[number] | null;
+function MapInstanceTracker({
+  setMapRef,
+}: {
+  setMapRef: React.Dispatch<React.SetStateAction<L.Map | null>>;
+}) {
+  const map = useMap();
 
+  useEffect(() => {
+    setMapRef(map);
+    return () => setMapRef(null);
+  }, [map, setMapRef]);
+
+  return null;
+}
+
+type Props = {
+  selectedReport: (typeof emergencyReports)[number] | null;
   setSelectedReport: React.Dispatch<
-    React.SetStateAction<typeof emergencyReports[number] | null>
+    React.SetStateAction<(typeof emergencyReports)[number] | null>
   >;
 };
+
 export default function EmergencyMap({
-  selectedReport,
   setSelectedReport,
 }: Props) {
   const [layers, setLayers] = useState({
@@ -154,18 +157,13 @@ export default function EmergencyMap({
     operations: true,
   });
 
-  const center: [number, number] = [24.47, 39.61];
-
   const [mapType, setMapType] = useState<"street" | "satellite">("street");
-
   const [mapRef, setMapRef] = useState<L.Map | null>(null);
 
+  const center: [number, number] = [24.47, 39.61];
+
   const goHome = () => {
-    if (mapRef) {
-      mapRef.flyTo(center, 12, {
-        duration: 1.5,
-      });
-    }
+    mapRef?.flyTo(center, 12, { duration: 1.5 });
   };
 
   const refreshMap = () => {
@@ -173,51 +171,30 @@ export default function EmergencyMap({
   };
 
   return (
-    <div
-      className="
-      bg-white
-      rounded-2xl
-      shadow-lg
-      p-6
-      border
-      border-slate-200
-    "
-    >
-      <h2
-        className="
-        text-2xl
-        font-bold
-        text-slate-800
-        mb-5
-      "
-      >
+    <div className="w-full min-w-0 rounded-2xl border border-slate-200 bg-white p-3 shadow-lg sm:p-4 lg:p-6">
+      <h2 className="mb-3 text-lg font-bold text-slate-800 sm:mb-4 sm:text-xl lg:mb-5 lg:text-2xl">
         الخريطة التفاعلية للطوارئ
       </h2>
 
-      <div
-        className="
-        rounded-xl
-        overflow-hidden
-        shadow-inner
-      "
-      >
-        <div className="relative">
+      <div className="w-full min-w-0 overflow-hidden rounded-xl border border-slate-200 shadow-inner">
+        <div className="relative w-full">
+          {/* الأدوات الزجاجية أعلى اليمين */}
           <MapToolbar onRefresh={refreshMap} onHome={goHome} />
 
-          <MapTypeSwitcher
-            mapType={mapType}
-            setMapType={setMapType}
-          />
+          {/* نوع الخريطة أسفل الأدوات بمسافة ثابتة */}
+          <MapTypeSwitcher mapType={mapType} setMapType={setMapType} />
 
           <MapContainer
-            whenCreated={setMapRef}
             center={center}
             zoom={12}
+            zoomControl={false}
             style={{
-              height: "600px",
+              height: "clamp(360px, 55vh, 600px)",
               width: "100%",
+              minWidth: "0",
             }}
           >
+            <MapInstanceTracker setMapRef={setMapRef} />
             <LayerControl setLayers={setLayers} />
 
             {mapType === "street" ? (
@@ -237,45 +214,39 @@ export default function EmergencyMap({
             )}
 
             {layers.reports &&
-  emergencyReports.map((report) => (
-    <Marker
-      key={report.id}
-      position={[report.lat, report.lng]}
-      icon={getMarkerIcon(report.type)}
-      eventHandlers={{
-        click: () => {
-          setSelectedReport(report);
-        },
-      }}
-    >
-      <Popup>
-        <div className="min-w-[220px]">
-          <h3 className="font-bold text-lg mb-2">
-            {report.title}
-          </h3>
-
-          <p>
-            <strong>النوع:</strong> {report.type}
-          </p>
-
-          <p>
-            <strong>الحالة:</strong> {report.status}
-          </p>
-
-          <p>
-            <strong>الخطورة:</strong> {report.severity}
-          </p>
-
-          <p>
-            <strong>الإحداثيات:</strong>
-            <br />
-            {report.lat}, {report.lng}
-          </p>
-        </div>
-      </Popup>
-    </Marker>
-  ))}
-            </MapContainer>
+              emergencyReports.map((report) => (
+                <Marker
+                  key={report.id}
+                  position={[report.lat, report.lng]}
+                  icon={getMarkerIcon(report.type)}
+                  eventHandlers={{
+                    click: () => setSelectedReport(report),
+                  }}
+                >
+                  <Popup>
+                    <div className="min-w-[180px] text-right sm:min-w-[220px]">
+                      <h3 className="mb-2 text-base font-bold sm:text-lg">
+                        {report.title}
+                      </h3>
+                      <p className="text-sm">
+                        <strong>النوع:</strong> {report.type}
+                      </p>
+                      <p className="text-sm">
+                        <strong>الحالة:</strong> {report.status}
+                      </p>
+                      <p className="text-sm">
+                        <strong>الخطورة:</strong> {report.severity}
+                      </p>
+                      <p className="text-sm">
+                        <strong>الإحداثيات:</strong>
+                        <br />
+                        {report.lat}, {report.lng}
+                      </p>
+                    </div>
+                  </Popup>
+                </Marker>
+              ))}
+          </MapContainer>
         </div>
       </div>
     </div>

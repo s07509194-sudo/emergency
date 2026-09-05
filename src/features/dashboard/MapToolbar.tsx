@@ -1,54 +1,54 @@
-import {
-  RefreshCw,
-  LocateFixed,
-} from "lucide-react";
+import { RefreshCw, LocateFixed } from "lucide-react";
 
 type Props = {
   onRefresh: () => void;
   onHome: () => void;
 };
 
-export default function MapToolbar({
-  onRefresh,
-  onHome,
-}: Props) {
+export default function MapToolbar({ onRefresh, onHome }: Props) {
   return (
     <div
       className="
-      absolute
-      top-4
-      right-4
-      z-[1000]
-      flex
-      gap-2
+        absolute top-3 right-3 z-[1000]
+        flex items-center gap-1.5
+        rounded-2xl border border-white/70
+        bg-white/90 p-1.5
+        shadow-xl shadow-slate-900/15
+        backdrop-blur-md
       "
     >
       <button
-        onClick={onRefresh}
+        type="button"
+        onClick={onHome}
+        title="العودة إلى مركز العمليات"
+        aria-label="العودة إلى مركز العمليات"
         className="
-        bg-white
-        shadow-lg
-        rounded-lg
-        p-2
-        hover:bg-slate-100
+          flex h-9 w-9 items-center justify-center
+          rounded-xl text-slate-600
+          transition-all duration-200
+          hover:-translate-y-0.5 hover:bg-emerald-50 hover:text-emerald-700
+          active:translate-y-0 active:scale-95
         "
-        title="تحديث"
       >
-        <RefreshCw size={20} />
+        <LocateFixed size={18} />
       </button>
 
+      <span className="h-5 w-px bg-slate-200" />
+
       <button
-        onClick={onHome}
+        type="button"
+        onClick={onRefresh}
+        title="تحديث الخريطة"
+        aria-label="تحديث الخريطة"
         className="
-        bg-white
-        shadow-lg
-        rounded-lg
-        p-2
-        hover:bg-slate-100
+          flex h-9 w-9 items-center justify-center
+          rounded-xl text-slate-600
+          transition-all duration-200
+          hover:-translate-y-0.5 hover:bg-emerald-50 hover:text-emerald-700
+          active:translate-y-0 active:scale-95
         "
-        title="مركز العمليات"
       >
-        <LocateFixed size={20} />
+        <RefreshCw size={18} />
       </button>
     </div>
   );

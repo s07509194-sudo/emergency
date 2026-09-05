@@ -1,6 +1,7 @@
 import { Wind, CloudRain, Thermometer, Sun, Sunrise, Sunset } from "lucide-react";
 import { useWeather } from "../../monitoring/hooks/useWeather";
 import { evaluateWeatherAlerts, type AlertLevel } from "../utils/weatherAlertRules";
+import IncidentReportsBoard from "./IncidentReportsBoard";
 
 const ICONS = { wind: Wind, rain: CloudRain, heat: Thermometer, uv: Sun };
 
@@ -143,6 +144,9 @@ export default function WeatherAlertsTab() {
           );
         })}
       </div>
+
+      {/* جدول البلاغات التفصيلي — الجزء الجديد */}
+      <IncidentReportsBoard />
     </div>
   );
 }

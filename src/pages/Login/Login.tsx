@@ -1,8 +1,30 @@
 import "./Login.css";
 import logo from "../../assets/images/madinah-logo.png";
 import background from "../../assets/images/login-bg.jpg";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = () => {
+    if (!username || !password) {
+      setError("يرجى إدخال اسم المستخدم وكلمة المرور");
+      return;
+    }
+
+    if (username === "dr.shahein" && password === "dr.shahein123") {
+      setError("");
+      navigate("/dashboard");
+    } else {
+      setError("اسم المستخدم أو كلمة المرور غير صحيحة");
+    }
+  };
+
   return (
     <div
       style={{
@@ -15,26 +37,25 @@ export default function Login() {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-       padding: "0 180px 0 500px"
+        padding: "0 180px 0 500px",
       }}
     >
       {/* الجهة اليسرى */}
 
       <div
         style={{
-  width: "560px",
-  minHeight: "850px",
-  background: "#ffffff",
-  borderRadius: "20px",
-  padding: "55px",
-  boxShadow: "0 15px 40px rgba(0,0,0,.3)",
-  marginRight: "120px",
-}}
+          width: "560px",
+          minHeight: "850px",
+          background: "#ffffff",
+          borderRadius: "20px",
+          padding: "55px",
+          boxShadow: "0 15px 40px rgba(0,0,0,.3)",
+          marginRight: "120px",
+        }}
       >
         <div style={{ textAlign: "center" }}>
           <img src={logo} width={180} />
         </div>
-        
 
         <h3
           style={{
@@ -45,12 +66,7 @@ export default function Login() {
             fontWeight: "bold",
           }}
         >
-
-
           أمانة منطقة المدينة المنورة
-
-
-
         </h3>
 
         <p
@@ -67,16 +83,44 @@ export default function Login() {
         <input
           type="text"
           placeholder="اسم المستخدم"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           style={inputStyle}
         />
 
         <input
           type="password"
           placeholder="كلمة المرور"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleLogin();
+            }
+          }}
           style={inputStyle}
         />
 
-        <button style={buttonStyle}>
+        {error && (
+          <div
+            style={{
+              color: "#d32f2f",
+              background: "#ffebee",
+              padding: "12px",
+              borderRadius: "10px",
+              textAlign: "center",
+              marginBottom: "20px",
+              fontSize: "16px",
+            }}
+          >
+            {error}
+          </div>
+        )}
+
+        <button
+          style={buttonStyle}
+          onClick={handleLogin}
+        >
           تسجيل الدخول
         </button>
       </div>
@@ -97,8 +141,7 @@ export default function Login() {
             marginTop: 20,
             fontSize: "28px",
           }}
-        >
-        </h2>
+        />
 
         <h1
           style={{
@@ -106,9 +149,7 @@ export default function Login() {
             fontSize: "52px",
             fontWeight: "bold",
           }}
-        >
-               
-        </h1>
+        />
       </div>
     </div>
   );
